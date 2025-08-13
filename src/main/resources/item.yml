@@ -1,0 +1,119 @@
+diamond:
+  material: DIAMOND # Материал который будет для продажи
+  translation: "<#70B3CD>Алмаз"  # Его название
+  price: 250 # Цена
+  amount: 4 # Сколько нужно будет продать
+
+iron_ingot:
+  material: IRON_INGOT
+  translation: "<#70B3CD>Железный слиток"
+  price: 125
+  amount: 16
+
+gold_ingot:
+  material: GOLD_INGOT
+  translation: "<#70B3CD>Золотой слиток"
+  price: 300
+  amount: 8
+
+emerald:
+  material: EMERALD
+  translation: "<#70B3CD>Изумруд"
+  price: 350
+  amount: 4
+
+netherite_ingot:
+  material: NETHERITE_INGOT
+  translation: "<#70B3CD>Незеритовый слиток"
+  price: 1200
+  amount: 1
+
+redstone:
+  material: REDSTONE
+  translation: "<#70B3CD>Редстоун"
+  price: 40
+  amount: 32
+
+lapis_lazuli:
+  material: LAPIS_LAZULI
+  translation: "<#70B3CD>Лазурит"
+  price: 60
+  amount: 32
+
+copper_ingot:
+  material: COPPER_INGOT
+  translation: "<#70B3CD>Медный слиток"
+  price: 70
+  amount: 8
+
+quartz:
+  material: QUARTZ
+  translation: "<#70B3CD>Кварц"
+  price: 80
+  amount: 8
+
+coal:
+  material: COAL
+  translation: "<#70B3CD>Уголь"
+  price: 30
+  amount: 16
+
+obsidian:
+  material: OBSIDIAN
+  translation: "<#70B3CD>Обсидиан"
+  price: 200
+  amount: 8
+
+slime_ball:
+  material: SLIME_BALL
+  translation: "<#70B3CD>Слизь"
+  price: 75
+  amount: 16
+
+string:
+  material: STRING
+  translation: "<#70B3CD>Нить"
+  price: 15
+  amount: 32
+
+blaze_rod:
+  material: BLAZE_ROD
+  translation: "<#70B3CD>Огненный жезл"
+  price: 120
+  amount: 4
+
+ender_pearl:
+  material: ENDER_PEARL
+  translation: "<#70B3CD>Жемчуг Эндера"
+  price: 100
+  amount: 8
+
+bone:
+  material: BONE
+  translation: "<#70B3CD>Кость"
+  price: 16
+  amount: 16
+
+gunpowder:
+  material: GUNPOWDER
+  translation: "<#70B3CD>Порох"
+  price: 22
+  amount: 8
+
+spider_eye:
+  material: SPIDER_EYE
+  translation: "<#70B3CD>Глаз паука"
+  price: 10
+  amount: 8
+
+glowstone_dust:
+  material: GLOWSTONE_DUST
+  translation: "<#70B3CD>Пыль светящегося камня"
+  price: 35
+  amount: 16
+
+phantom_membrane:
+  material: PHANTOM_MEMBRANE
+  translation: "<#70B3CD>Мембрана фантома"
+  price: 60
+  amount: 2

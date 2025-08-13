@@ -1,0 +1,92 @@
+title: "<black>Скупщик" # Название меню
+size: 54 # Размер
+seller-item: [20,21,22,23,24,29,30,31,32,33] # Слоты в которых будут появляться предметы для продажи
+item-lore: # описание предмета
+  - ""
+  - "<#70B3CD><bold>┃</bold> <white>Цена за <gray>%amount%<white> шт: <#70B3CD>%price% $"
+  - ""
+  - "<#70B3CD><bold>▲</bold> <#70B3CD>лкм <white>- продать {amount} предмет<#70B3CD>(ов)"
+  - "<#70B3CD><bold>▼</bold> <#70B3CD>пкм <white>- продать <#70B3CD>все"
+  - ""
+decorations: # Деворации
+
+  glass:
+    slot: 0
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  glass1:
+    slot: 1
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  glass2:
+    slot: 9
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  glass3:
+    slot: 7
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  glass4:
+    slot: 8
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  glass5:
+    slot: 17
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  glass6:
+    slot: 36
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  glass7:
+    slot: 45
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  glass8:
+    slot: 46
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  glass9:
+    slot: 44
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  glass10:
+    slot: 52
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  glass11:
+    slot: 53
+    material: GRAY_STAINED_GLASS_PANE
+    name: "&7Пусто"
+    lore: []
+
+  update_timer:
+    slot: 4
+    material: CLOCK
+    name: "         <#70B3CD>Обновление скупщика"
+    lore:
+      - "<#70B3CD><bold><underlined>┃</underlined></bold>"
+      - "<#70B3CD><bold><underlined>┃</underlined></bold> <gray>Скупщик обновится через: <#70B3CD>%update_time% ⌚ "
+      - "<#70B3CD><bold>┃</bold>"

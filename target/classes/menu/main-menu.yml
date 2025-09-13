@@ -1,0 +1,57 @@
+menu:
+  title: "<black>Скупщик" # Название меню
+  size: 54 # Размер меню
+
+  # Слоты для предметов в скупщике
+  seller-item-slots: [12, 13, 14, 20, 21, 22, 23, 24, 29, 30, 31, 32, 33, 39, 40, 41]
+
+  item-lore: # Лор предмета
+    - ""
+    - "<#E25822><bold>┃</bold> <white>Цена за <gray>{amount}<white> шт: <#E25822>{price} $"
+    - ""
+    - "<#E25822><bold>▲</bold> <#E25822>лкм <white>- продать <gray>{amount} <white>предмет<gray>[ов]"
+    - "<#E25822><bold>▼</bold> <#E25822>пкм <white>- продать <#E25822>все"
+    - ""
+
+  # Статичные предметы
+  static-items: [ ]
+
+  # Декорации
+  decorations:
+    - material: ORANGE_STAINED_GLASS_PANE
+      name: "&7Пусто"
+      lore: []
+      slots: [0, 8, 45, 53, 1, 7, 9, 17, 36, 44, 46, 52]
+
+    - material: CLOCK
+      name: "<#E25822>Обновление скупщика"
+      lore:
+        - "<#E25822><bold><underlined>┃</underlined></bold>"
+        - "<#E25822><bold><underlined>┃</underlined></bold> <gray>Скупщик обновится через: <#E25822>{update_time} ⌚"
+        - "<#E25822><bold>┃</bold>"
+      slot: 4
+      left_click_command:
+        - "[sound] UI_BUTTON_CLICK;1;1.0"
+
+    - material: PAPER
+      name: "<#E25822>Информация об уровне"
+      lore:
+        - "<#E25822><bold><underlined>┃</underlined></bold>"
+        - "<#E25822><bold><underlined>┃</underlined></bold> <gray>Ваш уровень: <#E25822>{level}"
+        - "<#E25822><bold><underlined>┃</underlined></bold> <gray>Множитель: <#E25822>{boost}x"
+        - "<#E25822><bold><underlined>┃</underlined></bold> <gray>До следующего уровня: <#E25822>{items_required}"
+        - "<#E25822><bold>┃</bold>"
+      slot: 48
+      left_click_command:
+        - "[sound] UI_BUTTON_CLICK;1;1.0"
+
+    - material: ARROW
+      name: "<#E25822>Открыть тестовое меню"
+      lore:
+        - "<#E25822><bold><underlined>┃</underlined></bold>"
+        - "<#E25822><bold><underlined>┃</underlined></bold> <gray>Нажми, что бы открыть другое меню"
+        - "<#E25822><bold>┃</bold>"
+      slot: 50
+      left_click_command:
+        - "[openmenu] test-menu"
+        - "[sound] ITEM_BOOK_PAGE_TURN;1;1.0"

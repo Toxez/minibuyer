@@ -1,0 +1,127 @@
+menu:
+  title: "<black>Статичный скупщик" # Название меню
+  size: 54 # Размер меню (6 строк)
+
+  # Так как предметы статические — оставляем пусто
+  seller-item-slots: []
+
+  item-lore: # Лор предмета
+    - ""
+    - "<#E25822><bold>┃</bold> <white>Цена за <gray>{amount}<white> шт: <#E25822>{price} $"
+    - ""
+    - "<#E25822><bold>▲</bold> <#E25822>лкм <white>- продать <gray>{amount} <white>предмет<gray>[ов]"
+    - "<#E25822><bold>▼</bold> <#E25822>пкм <white>- продать <#E25822>все"
+    - ""
+
+  # Статичные предметы
+  static-items:
+    - slot: 21
+      material: DIAMOND
+      name: "<#E25822>Алмаз"
+      amount: 2
+      price: 300
+      lore:
+        - ""
+        - "<#E25822><bold>|</bold> <white>Цена за <#E25822>{amount}<white> шт: <#E25822>{price} $"
+        - ""
+        - "<#E25822><bold>▲</bold> <#E25822>лкм <white>- продать <gray>{amount} <white>предмет<gray>[ов]"
+        - "<#E25822><bold>▼</bold> <#E25822>пкм <white>- продать <#E25822>все"
+        - ""
+
+    - slot: 22
+      material: IRON_INGOT
+      name: "<#E25822>Железо"
+      amount: 8
+      price: 100
+      lore:
+        - ""
+        - "<#E25822><bold>|</bold> <white>Цена за <#E25822>{amount}<white> шт: <#E25822>{price} $"
+        - ""
+        - "<#E25822><bold>▲</bold> <#E25822>лкм <white>- продать <gray>{amount} <white>предмет<gray>[ов]"
+        - "<#E25822><bold>▼</bold> <#E25822>пкм <white>- продать <#E25822>все"
+        - ""
+
+    - slot: 23
+      material: GOLD_INGOT
+      name: "<#E25822>Золото"
+      amount: 4
+      price: 200
+      lore:
+        - ""
+        - "<#E25822><bold>|</bold> <white>Цена за <#E25822>{amount}<white> шт: <#E25822>{price} $"
+        - ""
+        - "<#E25822><bold>▲</bold> <#E25822>лкм <white>- продать <gray>{amount} <white>предмет<gray>[ов]"
+        - "<#E25822><bold>▼</bold> <#E25822>пкм <white>- продать <#E25822>все"
+        - ""
+
+    - slot: 30
+      material: EMERALD
+      name: "<#E25822>Изумруд"
+      amount: 1
+      price: 400
+      lore:
+        - ""
+        - "<#E25822><bold>|</bold> <white>Цена за <#E25822>{amount}<white> шт: <#E25822>{price} $"
+        - ""
+        - "<#E25822><bold>▲</bold> <#E25822>лкм <white>- продать <gray>{amount} <white>предмет<gray>[ов]"
+        - "<#E25822><bold>▼</bold> <#E25822>пкм <white>- продать <#E25822>все"
+        - ""
+
+    - slot: 31
+      material: NETHERITE_INGOT
+      name: "<#E25822>Незерит"
+      amount: 1
+      price: 1000
+      lore:
+        - ""
+        - "<#E25822><bold>|</bold> <white>Цена за <#E25822>{amount}<white> шт: <#E25822>{price} $"
+        - ""
+        - "<#E25822><bold>▲</bold> <#E25822>лкм <white>- продать <gray>{amount} <white>предмет<gray>[ов]"
+        - "<#E25822><bold>▼</bold> <#E25822>пкм <white>- продать <#E25822>все"
+        - ""
+    - slot: 32
+      material: AMETHYST_SHARD
+      name: "<#E25822>Незерит"
+      amount: 4
+      price: 40
+      lore:
+        - ""
+        - "<#E25822><bold>|</bold> <white>Цена за <#E25822>{amount}<white> шт: <#E25822>{price} $"
+        - ""
+        - "<#E25822><bold>▲</bold> <#E25822>лкм <white>- продать <gray>{amount} <white>предмет<gray>[ов]"
+        - "<#E25822><bold>▼</bold> <#E25822>пкм <white>- продать <#E25822>все"
+        - ""
+
+  # Декорации
+  decorations:
+    - material: ORANGE_STAINED_GLASS_PANE
+      name: "&7Пусто"
+      lore: []
+      slots: [0, 8, 45, 53, 1, 7, 9, 17, 36, 44, 46, 52]
+
+    - material: PAPER
+      name: "<#E25822>Статическая информация"
+      lore:
+        - "<#E25822><bold><underlined>┃</underlined></bold>"
+        - "<#E25822><bold><underlined>┃</underlined></bold> <gray>Скупщик где цены не обновляються"
+        - "<#E25822><bold><underlined>┃</underlined></bold> <gray>Ассортимент фиксированный"
+        - "<#E25822><bold>┃</bold>"
+      slot: 48
+      left_click_command:
+        - "[sound] UI_BUTTON_CLICK;1;1.0"
+      right_click_command:
+        - "[sound] UI_BUTTON_CLICK;1;1.0"
+
+    - material: ARROW
+      name: "<#E25822>Вернуться в главное меню"
+      lore:
+        - "<#E25822><bold><underlined>┃</underlined></bold>"
+        - "<#E25822><bold><underlined>┃</underlined></bold> <gray>Нажми что бы перейти в главное меню"
+        - "<#E25822><bold>┃</bold>"
+      slot: 50
+      left_click_command:
+        - "[openmenu] main-menu"
+        - "[sound] ITEM_BOOK_PAGE_TURN;1;1.0"
+      right_click_command:
+        - "[openmenu] main-menu"
+        - "[sound] ITEM_BOOK_PAGE_TURN;1;1.0"

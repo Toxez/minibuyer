@@ -1,7 +1,9 @@
 package ua.vdev.minibuyer.manager;
 
 import lombok.Getter;
+
 import net.milkbowl.vault.economy.Economy;
+
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

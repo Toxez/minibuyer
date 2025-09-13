@@ -8,7 +8,9 @@ import org.bukkit.inventory.ItemStack;
 import ua.vdev.minibuyer.config.MenuConfig;
 import ua.vdev.minibuyer.item.SellableItem;
 import ua.vdev.minibuyer.util.ItemBuilder;
+import ua.vdev.minibuyer.util.TextUtil;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,12 +19,22 @@ public class MainMenu {
     private final MenuConfig menuConfig;
     private final List<SellableItem> items;
     private final String updateTime;
+    private final int level;
+    private final double multiplier;
+    private final String itemsRequired;
+    private final String menuName;
 
     public void open(Player player) {
-        Map<String, String> menuPlaceholders = Map.of("update_time", updateTime);
+        Map<String, String> menuPlaceholders = new HashMap<>();
+        menuPlaceholders.put("update_time", updateTime);
+        menuPlaceholders.put("level", String.valueOf(level));
+        menuPlaceholders.put("boost", String.format("%.2f", multiplier));
+        menuPlaceholders.put("items_required", itemsRequired);
 
-        Inventory inv = Bukkit.createInventory(new MenuHolder(), menuConfig.getSize(),
-                ua.vdev.minibuyer.util.TextUtil.mm(menuConfig.getTitle(), menuPlaceholders)
+        Inventory inv = Bukkit.createInventory(
+                new MenuHolder(menuName),
+                menuConfig.getSize(),
+                TextUtil.mm(menuConfig.getTitle(), menuPlaceholders)
         );
         updateInventory(inv);
         player.openInventory(inv);
@@ -30,31 +42,72 @@ public class MainMenu {
 
     public void update(Player player) {
         Inventory inv = player.getOpenInventory().getTopInventory();
-        updateInventory(inv);
+        if (inv != null && inv.getHolder() instanceof MenuHolder) {
+            updateInventory(inv);
+        }
     }
 
     private void updateInventory(Inventory inv) {
-        Map<String, String> menuPlaceholders = Map.of("update_time", updateTime);
+        Map<String, String> menuPlaceholders = new HashMap<>();
+        menuPlaceholders.put("update_time", updateTime);
+        menuPlaceholders.put("level", String.valueOf(level));
+        menuPlaceholders.put("boost", String.format("%.2f", multiplier));
+        menuPlaceholders.put("items_required", itemsRequired);
+
+        inv.clear();
+
         List<Integer> slots = menuConfig.getSellerItemSlots();
         for (int i = 0; i < items.size() && i < slots.size(); i++) {
             SellableItem item = items.get(i);
-            Map<String, String> itemPlaceholders = Map.of(
-                    "amount", String.valueOf(item.getAmount()),
-                    "price", String.valueOf(item.getPrice()),
-                    "update_time", updateTime
+
+            Map<String, String> itemPlaceholders = new HashMap<>();
+            itemPlaceholders.put("amount", String.valueOf(item.amount()));
+            itemPlaceholders.put("price", String.valueOf((int) (item.price() * multiplier)));
+            itemPlaceholders.put("update_time", updateTime);
+            itemPlaceholders.put("level", String.valueOf(level));
+            itemPlaceholders.put("boost", String.format("%.2f", multiplier));
+            itemPlaceholders.put("items_required", itemsRequired);
+
+            ItemStack stack = ItemBuilder.build(
+                    item.material(),
+                    item.amount(),
+                    item.name(),
+                    menuConfig.getItemLore(),
+                    itemPlaceholders
             );
-            ItemStack stack = ItemBuilder.build(item.getMaterial(), item.getAmount(), item.getTranslation(), menuConfig.getItemLore(), itemPlaceholders);
             inv.setItem(slots.get(i), stack);
         }
+
         menuConfig.getDecorations().forEach(deco -> {
+            Map<String, String> menuPlaceholdersForDeco = new HashMap<>(menuPlaceholders);
             ItemStack stack = ItemBuilder.build(
-                    deco.getMaterial(),
+                    deco.material(),
                     1,
-                    deco.getName(),
-                    deco.getLore(),
-                    menuPlaceholders
+                    deco.name(),
+                    deco.lore(),
+                    menuPlaceholdersForDeco
             );
-            inv.setItem(deco.getSlot(), stack);
+            deco.slots().forEach(slot -> inv.setItem(slot, stack));
+        });
+
+        menuConfig.getStaticItems().forEach(staticItem -> {
+            SellableItem item = staticItem.item();
+            Map<String, String> itemPlaceholders = new HashMap<>();
+            itemPlaceholders.put("amount", String.valueOf(item.amount()));
+            itemPlaceholders.put("price", String.valueOf((int) (item.price() * multiplier)));
+            itemPlaceholders.put("update_time", updateTime);
+            itemPlaceholders.put("level", String.valueOf(level));
+            itemPlaceholders.put("boost", String.format("%.2f", multiplier));
+            itemPlaceholders.put("items_required", itemsRequired);
+
+            ItemStack stack = ItemBuilder.build(
+                    item.material(),
+                    item.amount(),
+                    item.name(),
+                    staticItem.lore(),
+                    itemPlaceholders
+            );
+            inv.setItem(staticItem.slot(), stack);
         });
     }
 }

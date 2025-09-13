@@ -3,6 +3,7 @@ package ua.vdev.minibuyer.config;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import ua.vdev.minibuyer.config.model.SoundEffect;
 
 public class SoundConfig {
     private final FileConfiguration config;
@@ -11,24 +12,28 @@ public class SoundConfig {
         this.config = plugin.getConfig();
     }
 
-    public Sound getUpdateSellerSound() {
-        return getSound("sounds.update-seller", Sound.ENTITY_PLAYER_LEVELUP);
+    public SoundEffect getUpdateSellerSound() {
+        return getSoundEffect("sounds.update-seller", new SoundEffect(Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f));
     }
 
-    public Sound getSellSound() {
-        return getSound("sounds.sell", Sound.ENTITY_VILLAGER_YES);
+    public SoundEffect getSellSound() {
+        return getSoundEffect("sounds.sell", new SoundEffect(Sound.ENTITY_VILLAGER_YES, 1.0f, 1.0f));
     }
 
-    public Sound getNoItemsSound() {
-        return getSound("sounds.no-items", Sound.ENTITY_VILLAGER_NO);
+    public SoundEffect getNoItemsSound() {
+        return getSoundEffect("sounds.no-items", new SoundEffect(Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f));
     }
 
-    private Sound getSound(String path, Sound defaultSound) {
+    private SoundEffect getSoundEffect(String path, SoundEffect defaultEffect) {
         try {
-            String name = config.getString(path, defaultSound.name());
-            return Sound.valueOf(name);
+            String raw = config.getString(path, defaultEffect.sound().name());
+            String[] parts = raw.split(";");
+            Sound sound = Sound.valueOf(parts[0].trim().toUpperCase());
+            float volume = parts.length > 1 ? Float.parseFloat(parts[1].trim()) : 1.0f;
+            float pitch = parts.length > 2 ? Float.parseFloat(parts[2].trim()) : 1.0f;
+            return new SoundEffect(sound, volume, pitch);
         } catch (Exception e) {
-            return defaultSound;
+            return defaultEffect;
         }
     }
 }

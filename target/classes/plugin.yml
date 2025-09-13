@@ -1,0 +1,16 @@
+name: MiniBuyer
+version: '1.0'
+main: ua.vdev.minibuyer.MiniBuyer
+api-version: '1.20'
+authors: [Tox_8729]
+depend: [Vault, PlaceholderAPI]
+libraries:
+  - com.zaxxer:HikariCP:7.0.1
+
+commands:
+  buyer:
+  minibuyer:
+
+permissions:
+  minibuyer.admin:
+    default: op

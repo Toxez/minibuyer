@@ -51,20 +51,31 @@ public class MiniBuyer extends JavaPlugin {
         if (databaseManager != null) {
             databaseManager.closeConnection();
         }
+        if (menuManager != null) {
+            menuManager.shutdown();
+        }
         if (menuListener != null) {
             HandlerList.unregisterAll(menuListener);
         }
 
         reloadConfig();
 
-        databaseManager = new DatabaseManager(this);
-        levelManager = new LevelManager(this);
+        String dbType = getConfig().getString("database.type", "sqlite").toLowerCase();
+        String mysqlHost = getConfig().getString("database.mysql.host", "localhost");
+        int mysqlPort = getConfig().getInt("database.mysql.port", 3306);
+        String mysqlDatabase = getConfig().getString("database.mysql.database", "minibuyer");
+        String mysqlUsername = getConfig().getString("database.mysql.username", "root");
+        String mysqlPassword = getConfig().getString("database.mysql.password", "");
+        String mysqlProperties = getConfig().getString("database.mysql.properties", "useSSL=false&allowPublicKeyRetrieval=true");
+
+        databaseManager = new DatabaseManager(this, dbType, mysqlHost, mysqlPort, mysqlDatabase, mysqlUsername, mysqlPassword, mysqlProperties);
+        levelManager = new LevelManager(this, databaseManager);
         itemConfig = new ItemConfig(this);
         menuLoader = new MenuLoader(this);
         String mainMenuName = getConfig().getString("main-menu", "main-menu");
         menuConfig = menuLoader.getMenuConfig(mainMenuName);
         if (menuConfig == null) {
-            getLogger().warning("Основное меню '" + mainMenuName + "' не найдено будет используеься первый доступный файл");
+            getLogger().warning("Основное меню '" + mainMenuName + "' не найдено поэтому будет использоваться первый доступный файл");
             menuConfig = menuLoader.getMenuNames().stream().findFirst()
                     .map(menuLoader::getMenuConfig)
                     .orElse(null);
@@ -106,6 +117,9 @@ public class MiniBuyer extends JavaPlugin {
         }
         if (levelManager != null) {
             levelManager.closeConnection();
+        }
+        if (menuManager != null) {
+            menuManager.shutdown();
         }
         if (menuListener != null) {
             HandlerList.unregisterAll(menuListener);

@@ -2,7 +2,6 @@ package ua.vdev.minibuyer.manager;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
 import ua.vdev.minibuyer.menu.MenuHolder;
 
 public class MenuUpdateTask extends BukkitRunnable {
@@ -17,11 +16,11 @@ public class MenuUpdateTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (player.isOnline() && player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder) {
-            menuManager.updatePlayerMenu(player);
-        } else {
+        if (!player.isOnline() || !(player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder)) {
             menuManager.stopPlayerMenuUpdate(player);
             this.cancel();
+            return;
         }
+        menuManager.updatePlayerMenu(player);
     }
 }

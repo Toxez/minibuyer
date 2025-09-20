@@ -15,6 +15,7 @@ ua\vdev\minibuyer\menu\actions\MenuAction.class
 ua\vdev\minibuyer\util\TextUtil.class
 ua\vdev\minibuyer\config\model\SoundEffect.class
 ua\vdev\minibuyer\manager\EconomyManager.class
+ua\vdev\minibuyer\manager\LevelManager$CachedPlayerData.class
 ua\vdev\minibuyer\menu\actions\ActionFactory.class
 ua\vdev\minibuyer\util\ItemBuilder.class
 ua\vdev\minibuyer\MiniBuyer.class

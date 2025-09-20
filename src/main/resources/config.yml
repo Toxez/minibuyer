@@ -13,6 +13,24 @@
 # Спасибо за использование данного плагина!
 #
 
+database:
+  # sqlite или mysql
+  type: "sqlite"
+  # Настройки MySQL
+  mysql:
+    # Хост сервера
+    host: "localhost"
+    # Порт
+    port: 3306
+    # Имя базы данных
+    database: "minibuyer"
+    # Имя пользователя
+    username: "root"
+    # Пароль пользователя
+    password: "your_password"
+    # Дополнительные параметры JDBC URL
+    properties: "useSSL=false&allowPublicKeyRetrieval=true"
+
 # Раз в сколько времени будет обновляться скупщик в формате чч.мм.сс
 update-interval: "00.01.00"
 

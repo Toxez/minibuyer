@@ -1,3 +1,21 @@
+
+#
+# left_click_command: - действие при левом нажатии
+# right_click_command: - действие при правом нажатии
+#
+# потом допишу, сейчас лень
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+
 menu:
   title: "<black>Скупщик" # Название меню
   size: 54 # Размер меню
@@ -32,6 +50,8 @@ menu:
       slot: 4
       left_click_command:
         - "[sound] UI_BUTTON_CLICK;1;1.0"
+      right_click_command:
+        - "[sound] UI_BUTTON_CLICK;1;1.0"
 
     - material: PAPER
       name: "<#E25822>Информация об уровне"
@@ -44,6 +64,8 @@ menu:
       slot: 48
       left_click_command:
         - "[sound] UI_BUTTON_CLICK;1;1.0"
+      right_click_command:
+        - "[sound] UI_BUTTON_CLICK;1;1.0"
 
     - material: ARROW
       name: "<#E25822>Открыть тестовое меню"
@@ -53,5 +75,8 @@ menu:
         - "<#E25822><bold>┃</bold>"
       slot: 50
       left_click_command:
+        - "[openmenu] test-menu"
+        - "[sound] ITEM_BOOK_PAGE_TURN;1;1.0"
+      right_click_command:
         - "[openmenu] test-menu"
         - "[sound] ITEM_BOOK_PAGE_TURN;1;1.0"

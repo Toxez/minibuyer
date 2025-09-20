@@ -1,6 +1,7 @@
 package ua.vdev.minibuyer.manager;
 
 import lombok.Getter;
+import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitTask;
 import ua.vdev.minibuyer.MiniBuyer;
 import ua.vdev.minibuyer.config.model.SoundEffect;
@@ -10,6 +11,7 @@ import ua.vdev.minibuyer.util.TextUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class AssortmentUpdater {
@@ -60,10 +62,33 @@ public class AssortmentUpdater {
 
     private void updateAssortments() {
         plugin.getMenuLoader().getMenuNames().forEach(menuName -> {
+            var menuConfig = plugin.getMenuLoader().getMenuConfig(menuName);
+            if (menuConfig == null) {
+                plugin.getLogger().warning("Меню " + menuName + " не найдено");
+                return;
+            }
+
             List<SellableItem> allItems = new ArrayList<>(menuManager.getItemConfig().getItems());
-            Collections.shuffle(allItems);
-            int max = Math.min(menuManager.getMenuConfig().getSellerItemSlots().size(), allItems.size());
-            plugin.getMenuLoader().updateAssortment(menuName, allItems.stream().limit(max).toList());
+            if (allItems.isEmpty()) {
+                return;
+            }
+
+            List<Material> staticMaterials = menuConfig.getStaticItems().stream()
+                    .map(staticItem -> staticItem.item().material())
+                    .collect(Collectors.toList());
+            List<SellableItem> availableItems = allItems.stream()
+                    .filter(item -> !staticMaterials.contains(item.material()))
+                    .collect(Collectors.toList());
+
+            if (availableItems.isEmpty()) {
+                return;
+            }
+
+            Collections.shuffle(availableItems);
+            int max = Math.min(menuConfig.getSellerItemSlots().size(), availableItems.size());
+            List<SellableItem> newAssortment = availableItems.stream().limit(max).collect(Collectors.toList());
+
+            plugin.getMenuLoader().updateAssortment(menuName, newAssortment);
         });
     }
 

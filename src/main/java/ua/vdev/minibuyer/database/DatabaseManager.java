@@ -21,18 +21,30 @@ public class DatabaseManager {
     private final MiniBuyer plugin;
     private HikariDataSource dataSource;
     private ExecutorService executor;
+    private final String dbType;
 
-    public DatabaseManager(MiniBuyer plugin) {
+    public DatabaseManager(MiniBuyer plugin, String dbType, String mysqlHost, int mysqlPort, String mysqlDatabase, String mysqlUsername, String mysqlPassword, String mysqlProperties) {
         this.plugin = plugin;
-        initPool();
+        this.dbType = dbType.toLowerCase();
+        initPool(mysqlHost, mysqlPort, mysqlDatabase, mysqlUsername, mysqlPassword, mysqlProperties);
     }
 
-    private void initPool() {
+    private void initPool(String mysqlHost, int mysqlPort, String mysqlDatabase, String mysqlUsername, String mysqlPassword, String mysqlProperties) {
         closeConnection();
 
         this.executor = Executors.newFixedThreadPool(4);
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:sqlite:" + plugin.getDataFolder() + "/mini.db");
+
+        if (dbType.equals("mysql")) {
+            config.setJdbcUrl(String.format("jdbc:mysql://%s:%d/%s?%s", mysqlHost, mysqlPort, mysqlDatabase, mysqlProperties));
+            config.setUsername(mysqlUsername);
+            config.setPassword(mysqlPassword);
+            config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        } else {
+            config.setJdbcUrl("jdbc:sqlite:" + plugin.getDataFolder() + "/mini.db");
+            config.setDriverClassName("org.sqlite.JDBC");
+        }
+
         config.setMaximumPoolSize(10);
         config.setMinimumIdle(2);
         config.setConnectionTimeout(30000);
@@ -41,10 +53,16 @@ public class DatabaseManager {
         config.setPoolName("MiniBuyerPool");
         dataSource = new HikariDataSource(config);
 
-        executeAsync("CREATE TABLE IF NOT EXISTS player_levels (" +
+        String createTableSql = dbType.equals("mysql")
+                ? "CREATE TABLE IF NOT EXISTS player_levels (" +
+                "player_uuid VARCHAR(36) PRIMARY KEY," +
+                "level INT DEFAULT 1," +
+                "items_sold INT DEFAULT 0)"
+                : "CREATE TABLE IF NOT EXISTS player_levels (" +
                 "player_uuid TEXT PRIMARY KEY," +
                 "level INTEGER DEFAULT 1," +
-                "items_sold INTEGER DEFAULT 0)");
+                "items_sold INTEGER DEFAULT 0)";
+        executeAsync(createTableSql);
     }
 
     private void executeAsync(String sql, Consumer<PreparedStatement> setter) {
@@ -57,7 +75,8 @@ public class DatabaseManager {
                  PreparedStatement stmt = conn.prepareStatement(sql)) {
                 if (setter != null) setter.accept(stmt);
                 stmt.executeUpdate();
-            } catch (SQLException ignored) {}
+            } catch (SQLException e) {
+            }
         });
     }
 
@@ -80,7 +99,8 @@ public class DatabaseManager {
                         callback.accept(rs);
                     }
                 }
-            } catch (SQLException ignored) {}
+            } catch (SQLException e) {
+            }
         });
     }
 
@@ -92,12 +112,21 @@ public class DatabaseManager {
         return CompletableFuture.runAsync(() -> {
             try (Connection conn = dataSource.getConnection();
                  PreparedStatement stmt = conn.prepareStatement(
-                         "INSERT OR REPLACE INTO player_levels (player_uuid, level, items_sold) VALUES (?,?,?)")) {
+                         "INSERT INTO player_levels (player_uuid, level, items_sold) VALUES (?,?,?) " +
+                                 (dbType.equals("mysql") ? "ON DUPLICATE KEY UPDATE level=?, items_sold=?" : "ON CONFLICT(player_uuid) DO UPDATE SET level=?, items_sold=?"))) {
                 stmt.setString(1, uuid.toString());
                 stmt.setInt(2, level);
                 stmt.setInt(3, itemsSold);
+                if (dbType.equals("mysql")) {
+                    stmt.setInt(4, level);
+                    stmt.setInt(5, itemsSold);
+                } else {
+                    stmt.setInt(4, level);
+                    stmt.setInt(5, itemsSold);
+                }
                 stmt.executeUpdate();
-            } catch (SQLException ignored) {}
+            } catch (SQLException e) {
+            }
         }, executor);
     }
 
@@ -122,14 +151,18 @@ public class DatabaseManager {
                     }
 
                     try (PreparedStatement updateStmt = conn.prepareStatement(
-                            "INSERT OR REPLACE INTO player_levels (player_uuid, level, items_sold) VALUES (?,?,?)")) {
+                            "INSERT INTO player_levels (player_uuid, level, items_sold) VALUES (?,?,?) " +
+                                    (dbType.equals("mysql") ? "ON DUPLICATE KEY UPDATE level=?, items_sold=?" : "ON CONFLICT(player_uuid) DO UPDATE SET level=?, items_sold=?"))) {
                         updateStmt.setString(1, playerId.toString());
                         updateStmt.setInt(2, currentLevel);
                         updateStmt.setInt(3, currentItemsSold + amount);
+                        updateStmt.setInt(4, currentLevel);
+                        updateStmt.setInt(5, currentItemsSold + amount);
                         updateStmt.executeUpdate();
                     }
                 }
-            } catch (SQLException ignored) {}
+            } catch (SQLException e) {
+            }
         }, executor);
     }
 
@@ -152,14 +185,18 @@ public class DatabaseManager {
                     }
 
                     try (PreparedStatement updateStmt = conn.prepareStatement(
-                            "INSERT OR REPLACE INTO player_levels (player_uuid, level, items_sold) VALUES (?,?,?)")) {
+                            "INSERT INTO player_levels (player_uuid, level, items_sold) VALUES (?,?,?) " +
+                                    (dbType.equals("mysql") ? "ON DUPLICATE KEY UPDATE level=?, items_sold=?" : "ON CONFLICT(player_uuid) DO UPDATE SET level=?, items_sold=?"))) {
                         updateStmt.setString(1, playerId.toString());
                         updateStmt.setInt(2, level);
                         updateStmt.setInt(3, currentItemsSold);
+                        updateStmt.setInt(4, level);
+                        updateStmt.setInt(5, currentItemsSold);
                         updateStmt.executeUpdate();
                     }
                 }
-            } catch (SQLException ignored) {}
+            } catch (SQLException e) {
+            }
         }, executor);
     }
 
